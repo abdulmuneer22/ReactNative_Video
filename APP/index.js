@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableWithoutFeedback,
+  Dimensions
 } from 'react-native';
 
 import Video from 'react-native-video';
 
+const window = Dimensions.get('window')
 class APP extends Component{
     constructor(props) {
 
@@ -44,16 +47,30 @@ class APP extends Component{
     this.setState({ isBuffering });
   }
 
+  flipPlay(){
+      //alert("Called")
+      this.setState({paused : !this.state.paused})
+  }
+
 
     render(){
         return(
-            <View style={{
-                flex : 1,
-                alignItems : 'center',
-                justifyContent : 'center'
-            }}>
+            <View style={{flex : 1, alignItems : 'center' , justifyContent : 'center'}}>
+                <TouchableWithoutFeedback
+                onPress={()=>{
+                    this.flipPlay()
+                    }}
+                style={{
+                    flex : 1,
+                    backgroundColor : 'red',
+                    width : window.width * 0.8,
+                    height : window.height * 0.1
+                }}
+                >
+
+
                 <Video
-                source={require('./broadchurch.mp4')}
+                source={require('./bensound-goinghigher.mp3')}
                 style={styles.fullScreen}
                 rate={this.state.rate}
                 paused={this.state.paused}
@@ -65,8 +82,11 @@ class APP extends Component{
                 onProgress={this.onProgress}
                 onEnd={() => { AlertIOS.alert('Done!') }}
                 repeat={true}
-          />
+                />
+                </TouchableWithoutFeedback>
+                <View style={{flex :1}}></View>
             </View>
+            
         );
     }
 }
